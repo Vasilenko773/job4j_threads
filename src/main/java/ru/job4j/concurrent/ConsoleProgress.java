@@ -19,7 +19,7 @@ public class ConsoleProgress implements Runnable {
                     System.out.print("\r load: " + s);
                 }
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Thread.currentThread().interrupt();
             }
         }
     }

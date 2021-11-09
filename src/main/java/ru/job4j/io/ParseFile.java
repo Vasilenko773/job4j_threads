@@ -13,11 +13,11 @@ public class ParseFile implements Connector {
     }
 
     public String getContent() {
-        return content(Objects::nonNull);
+        return content((i) -> true);
     }
 
     public String getContentWithoutUnicode() {
-        return content((i) -> i < 0X80);
+        return content((i) -> true);
     }
 
     @Override

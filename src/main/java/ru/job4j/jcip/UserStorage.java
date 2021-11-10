@@ -1,42 +1,48 @@
 package ru.job4j.jcip;
 
 import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
 
-import java.util.ArrayList;
+
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+@ThreadSafe
 public class UserStorage {
 
     @GuardedBy("this")
-    private final List<User> users = new ArrayList<>();
+    private final Map<Integer, User> users = new HashMap<>();
 
     public synchronized boolean add(User user) {
-        return users.add(user);
+        return users.putIfAbsent(user.getId(), user) == null;
     }
 
     public synchronized boolean update(User user) {
-        for (User exp : users) {
-            if (exp.getId() == user.getId() && exp.getAmount() != user.getAmount()) {
-                return true;
-            }
-        }
-        return false;
+        return users.replace(user.getId(), user) != null;
     }
 
 
     public synchronized boolean delete(User user) {
-        return users.remove(user);
+        return users.remove(user.getId()) != user;
     }
 
-    public synchronized void transfer(int fromId, int told, int amount) {
-       if (users.get(fromId) != null && users.get(told) != null
-               && users.get(fromId).getAmount() >= amount) {
+    public synchronized boolean transfer(int fromId, int told, int amount) {
+        if (users.get(fromId) != null && users.get(told) != null
+                && users.get(fromId).getAmount() >= amount) {
+            return update(User.of(told, users.get(told).getAmount() + amount))
+                    && update(User.of(fromId, users.get(fromId).getAmount() - amount));
+        }
+        return false;
+    }
 
-          update(User.of(told, users.get(told).getAmount() + amount));
-          update(User.of(fromId, users.get(fromId).getAmount() - amount));
-       }
+    public static void main(String[] args) {
+        User user1 = new User(1, 100);
+        User user2 = new User(2, 50);
+        UserStorage userStorage = new UserStorage();
+        System.out.println(userStorage.add(user1));
+        System.out.println(userStorage.add(user2));
+        System.out.println(userStorage.transfer(1, 2, 50));
+        System.out.println(userStorage.delete(user1));
+        System.out.println(userStorage.delete(user2));
     }
 }
-

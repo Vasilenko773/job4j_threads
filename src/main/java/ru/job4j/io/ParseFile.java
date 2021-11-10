@@ -17,7 +17,7 @@ public class ParseFile implements Connector {
     }
 
     public String getContentWithoutUnicode() {
-        return content((i) -> true);
+        return content((i) -> i < 0X80);
     }
 
     @Override

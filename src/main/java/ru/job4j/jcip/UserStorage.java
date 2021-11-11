@@ -29,9 +29,9 @@ public class UserStorage {
     public synchronized boolean transfer(int fromId, int told, int amount) {
         if (users.get(fromId) != null && users.get(told) != null
                 && users.get(fromId).getAmount() >= amount) {
-
-            return update(users.put(fromId, new User(fromId, users.get(fromId).getAmount() - amount)))
-                    && update(users.put(told, new User(told, users.get(told).getAmount() + amount)));
+            users.get(fromId).setAmount(users.get(fromId).getAmount() - amount);
+            users.get(told).setAmount(users.get(told).getAmount() + amount);
+            return true;
         }
         return false;
     }

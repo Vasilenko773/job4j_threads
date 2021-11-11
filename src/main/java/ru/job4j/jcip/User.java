@@ -1,20 +1,22 @@
 package ru.job4j.jcip;
 
 import java.util.Objects;
+import java.util.function.BinaryOperator;
 
 public class User {
 
     private final int id;
     private final int amount;
 
-    public User(final int id, final int amount) {
+    public User(int id, int amount) {
         this.id = id;
         this.amount = amount;
     }
 
-    public static User of(int id, int amount) {
-        return new User(id, amount);
+    public static User setAmount(int id, BinaryOperator<Integer> binaryOperator, int i, int j) {
+        return new User(id, binaryOperator.apply(i, j));
     }
+
 
     public int getId() {
         return id;
@@ -39,5 +41,13 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(id, amount);
+    }
+
+    @Override
+    public String toString() {
+        return "User{"
+                + "id=" + id
+                + ", amount=" + amount
+                + '}';
     }
 }

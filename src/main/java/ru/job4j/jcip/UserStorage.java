@@ -23,14 +23,14 @@ public class UserStorage {
 
 
     public synchronized boolean delete(User user) {
-        return users.remove(user.getId()) != user;
+        return users.remove(user.getId(), user);
     }
 
     public synchronized boolean transfer(int fromId, int told, int amount) {
         if (users.get(fromId) != null && users.get(told) != null
                 && users.get(fromId).getAmount() >= amount) {
-            return update(User.of(told, users.get(told).getAmount() + amount))
-                    && update(User.of(fromId, users.get(fromId).getAmount() - amount));
+            return update(users.put(fromId, User.setAmount(fromId, ((i, j) -> i - j), users.get(fromId).getAmount(), amount)))
+                    && update(users.put(told, User.setAmount(told, (Integer::sum), users.get(told).getAmount(), amount)));
         }
         return false;
     }
@@ -42,7 +42,10 @@ public class UserStorage {
         System.out.println(userStorage.add(user1));
         System.out.println(userStorage.add(user2));
         System.out.println(userStorage.transfer(1, 2, 50));
+        System.out.println(userStorage.update(user1));
+        System.out.println(userStorage.update(user2));
         System.out.println(userStorage.delete(user1));
         System.out.println(userStorage.delete(user2));
+
     }
 }

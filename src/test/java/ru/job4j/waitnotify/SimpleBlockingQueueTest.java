@@ -8,8 +8,23 @@ public class SimpleBlockingQueueTest {
     @Test
     public void logicSimpleBlocking() throws InterruptedException {
         SimpleBlockingQueue<Integer> smb = new SimpleBlockingQueue<>(5);
-        Thread first = new Thread(() -> smb.offer(3));
-        Thread second = new Thread(smb::poll);
+        Thread first = new Thread(() -> {
+            try {
+                smb.offer(3);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        Thread second = new Thread(
+                () -> {
+                    try {
+                        smb.poll();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+        );
         first.start();
         second.start();
         first.join();
@@ -25,12 +40,25 @@ public class SimpleBlockingQueueTest {
                     int i = 0;
                     while (i < 8) {
                         i++;
-                        smb.offer(3);
+                        try {
+                            smb.offer(3);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
         );
 
-        Thread second = new Thread(smb::poll);
+        Thread second = new Thread(
+                () -> {
+                    try {
+                        smb.poll();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+        );
         first.start();
         second.start();
         first.join();
@@ -45,7 +73,11 @@ public class SimpleBlockingQueueTest {
                     int i = 0;
                     while (i < 7) {
                         i++;
-                        smb.offer(3);
+                        try {
+                            smb.offer(3);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
         );
@@ -55,7 +87,11 @@ public class SimpleBlockingQueueTest {
                     int i = 0;
                     while (i < 6) {
                         i++;
-                        smb.poll();
+                        try {
+                            smb.poll();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
         );

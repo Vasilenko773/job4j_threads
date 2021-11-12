@@ -10,7 +10,7 @@ import java.util.Queue;
 public class SimpleBlockingQueue<T> {
 
     @GuardedBy("this")
-    private final Queue<T> queue = new LinkedList<>();
+    private Queue<T> queue = new LinkedList<>();
 
     private final int count;
 
@@ -18,25 +18,17 @@ public class SimpleBlockingQueue<T> {
         this.count = count;
     }
 
-    public synchronized void offer(T value) {
+    public synchronized void offer(T value) throws InterruptedException {
         while (queue.size() == count) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+            wait();
         }
-        notify();
         queue.add(value);
+        notify();
     }
 
-    public synchronized T poll() {
+    public synchronized T poll() throws InterruptedException {
         while (queue.isEmpty()) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+            wait();
         }
         notify();
         return queue.remove();
@@ -51,7 +43,11 @@ public class SimpleBlockingQueue<T> {
                     int i = 0;
                     while (i < 7) {
                         i++;
-                        smb.offer(1);
+                        try {
+                            smb.offer(1);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         System.out.println("Добавленно");
                     }
                 }
@@ -61,7 +57,11 @@ public class SimpleBlockingQueue<T> {
                     int i = 0;
                     while (i < 7) {
                         i++;
-                        smb.poll();
+                        try {
+                            smb.poll();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         System.out.println("Полученно");
                     }
                 }

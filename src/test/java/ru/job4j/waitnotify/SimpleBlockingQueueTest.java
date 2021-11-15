@@ -11,12 +11,11 @@ import static org.junit.Assert.assertThat;
 
 public class SimpleBlockingQueueTest {
 
-    final CopyOnWriteArrayList<Integer> buffer = new CopyOnWriteArrayList<>();
-    final SimpleBlockingQueue<Integer> smb = new SimpleBlockingQueue<>(5);
 
     @Test
     public void logicSimpleBlocking() throws InterruptedException {
-
+       CopyOnWriteArrayList<Integer> buffer = new CopyOnWriteArrayList<>();
+        SimpleBlockingQueue<Integer> smb = new SimpleBlockingQueue<>(5);
         Thread first = new Thread(() -> {
             try {
                 smb.offer(3);
@@ -44,6 +43,8 @@ public class SimpleBlockingQueueTest {
 
     @Test
     public void logicSimpleBlockingTwo() throws InterruptedException {
+       CopyOnWriteArrayList<Integer> buffer = new CopyOnWriteArrayList<>();
+       SimpleBlockingQueue<Integer> smb = new SimpleBlockingQueue<>(5);
         Thread first = new Thread(
                 () -> {
                     int i = 0;
@@ -78,6 +79,7 @@ public class SimpleBlockingQueueTest {
 
     @Test
     public void logicSimpleBlockingThree() throws InterruptedException {
+        CopyOnWriteArrayList<Integer> buffer = new CopyOnWriteArrayList<>();
         SimpleBlockingQueue<Integer> smb = new SimpleBlockingQueue<>(5);
         Thread first = new Thread(
                 () -> {

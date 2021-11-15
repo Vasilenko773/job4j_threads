@@ -10,7 +10,7 @@ import static org.hamcrest.core.Is.is;
 public class CASCountTest {
 
     @Test
-    public void CASCountLogic() {
+    public void cASCountLogic() {
         CASCount casCount = new CASCount(0);
 
         casCount.increment();
@@ -21,7 +21,7 @@ public class CASCountTest {
     }
 
     @Test
-    public void CASCountLogicTwo() {
+    public void cASCountLogicTwo() {
         CASCount casCount = new CASCount(2);
 
         casCount.increment();
@@ -38,7 +38,7 @@ public class CASCountTest {
     }
 
     @Test
-    public void CASCountLogicTree() {
+    public void cASCountLogicTree() {
         CASCount casCount = new CASCount(0);
 
         casCount.increment();

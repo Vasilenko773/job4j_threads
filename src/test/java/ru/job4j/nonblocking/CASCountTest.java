@@ -47,5 +47,4 @@ public class CASCountTest {
 
         Assert.assertThat(casCount.get(), is(3));
     }
-
 }

@@ -17,17 +17,11 @@ public class Cache {
             throw new OptimisticException("У сравниваемых моделей не равны версии");
         }
         model.setName("Super-puper");
-        return memory.replace(model.getId(), new Base(model.getId(), model.getVersion() + 1)) != null;
+        return memory.computeIfPresent(model.getId(), ((i, b) -> new Base(model.getId(), model.getVersion() + 1))) != null;
     }
 
     public void delete(Base model) {
         memory.remove(model.getId(), model);
     }
-
-    static class OptimisticException extends RuntimeException {
-
-        public OptimisticException(String string) {
-            super(string);
-        }
-    }
 }
+

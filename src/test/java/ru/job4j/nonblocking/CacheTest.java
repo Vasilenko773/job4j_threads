@@ -42,7 +42,7 @@ public class CacheTest {
     }
 
     @Test
-    public void hashMapUpdate() throws Cache.OptimisticException {
+    public void hashMapUpdate() throws OptimisticException {
         Cache cache = new Cache();
         Base base1 = new Base(1, 0);
         Base base2 = new Base(2, 1);

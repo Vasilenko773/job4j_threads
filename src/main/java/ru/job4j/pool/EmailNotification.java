@@ -19,7 +19,6 @@ public class EmailNotification {
                 () -> send(user.getUsername() + " " + user.getEmail(),
                         "lalala" + Thread.currentThread().getName(), user.getEmail())));
     }
-
     /**
      * Метод закрывает pool
      */

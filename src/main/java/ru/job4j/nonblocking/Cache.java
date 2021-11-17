@@ -12,14 +12,15 @@ public class Cache {
     }
 
     public boolean update(Base model) throws OptimisticException {
-        Base exp = memory.get(model.getId());
-        model.setName("Super-puper");
+
         return memory.computeIfPresent(model.getId(),
                 (i, b) -> {
-                    if (exp.getVersion() != model.getVersion()) {
+                    if (b.getVersion() != model.getVersion()) {
                         throw new OptimisticException("У сравниваемых моделей не равны версии");
                     }
-                    return new Base(model.getId(), model.getVersion() + 1);
+                    Base rsl = new Base(model.getId(), model.getVersion() + 1);
+                    rsl.setName(model.getName());
+                    return rsl;
                 }
         ) != null;
     }

@@ -34,6 +34,10 @@ public class SimpleBlockingQueue<T> {
         return queue.remove();
     }
 
+    public int getCount() {
+        return count;
+    }
+
 
     public static void main(String[] args) throws InterruptedException {
         SimpleBlockingQueue<Integer> smb = new SimpleBlockingQueue<>(7);

@@ -34,7 +34,7 @@ public class RolColSum {
     }
 
     private static Sums[] sumRowAndColumn(int[][] matrix) {
-        Sums[] rsl = new Sums[matrix.length * 2];
+        Sums[] rsl = new Sums[matrix.length];
         int size = 0;
         for (int i = 0; i < matrix.length; i++) {
 

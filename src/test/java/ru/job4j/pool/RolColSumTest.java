@@ -15,7 +15,9 @@ public class RolColSumTest {
                 }
         );
         Assert.assertThat(rsl[0].getRowSum(), is(7));
+        Assert.assertThat(rsl[0].getColSum(), is(9));
         Assert.assertThat(rsl[1].getColSum(), is(8));
+        Assert.assertThat(rsl[1].getRowSum(), is(12));
         Assert.assertThat(rsl[2].getColSum(), is(15));
         Assert.assertThat(rsl[2].getRowSum(), is(13));
     }
